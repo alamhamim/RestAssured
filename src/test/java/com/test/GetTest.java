@@ -1,7 +1,9 @@
 package com.test;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.apache.http.entity.mime.content.ContentBody;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import static io.restassured.RestAssured.*;
@@ -81,6 +83,45 @@ public class GetTest {
 
 
 
+
+    }
+
+
+    @Test
+    public void testSix() {
+        baseURI = "http://localhost:3000/";
+
+        given().
+                param("firstName", "Hamim").
+                get("/users").
+                then().log().all();
+    }
+
+    @Test
+    public void testSeven() {
+        baseURI = "http://localhost:3000/";
+        JSONObject body = new JSONObject();
+        body.put("FirstName", "Dummy");
+        body.put("LastName", "Meme");
+
+        given().
+                contentType(ContentType.JSON).accept(ContentType.JSON).
+                header("Content-Type", "Application/json").
+                body(body.toJSONString()).
+                when().
+                delete("/users/4").
+                then().
+                statusCode(404);
+    }
+
+    @Test
+    public void testEight() {
+        baseURI = "http://localhost:3000/";
+
+        given().
+                param("id", 1).
+                get("/subjects").
+                then().log().all();
 
     }
 
